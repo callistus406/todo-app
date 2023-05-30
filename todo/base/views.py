@@ -47,7 +47,6 @@ def add_todo(request):
             else:
                 if all(data.get(field) for field in required_fields):
                     # validate date fields
-                    print(data)
                     is_start_date_valid = validate_date(data['start_date'])
                     is_end_date_valid = validate_date(data["end_date"])
                     if not is_start_date_valid or not is_end_date_valid:
@@ -86,25 +85,58 @@ def add_todo(request):
 
 
 @ensure_csrf_cookie
-def update_todo(request):
+def update_todo(request, todo_id):
+    try:
+        required_fields = ["title", "description",
+                           "priority", "status", "start_date", "end_date"]
+        if request.method == "PATCH":
+            if todo_id == "" or todo_id == None:
+                return JsonResponse({"success": False, "payload": "No Id provided"}, status=400)
+            data = json.loads(request.body)
 
-    if request.method == "PATCH":
-        data = json.loads(request.body)
-        if not data:
-            return JsonResponse({"success": False, "payload": "Sorry,You cannot send an empty request"}, status=400)
+            if not data:
+                return JsonResponse({"success": False, "payload": "Sorry,You cannot send an empty request"}, status=400)
+            else:
+                if all(data.get(field) for field in required_fields):
+                    # validate date fields
+                    is_start_date_valid = validate_date(data['start_date'])
+                    is_end_date_valid = validate_date(data["end_date"])
+                    if not is_start_date_valid or not is_end_date_valid:
+                        return JsonResponse({"success": False, "payload": "Please enter a valid date.format:yy-mm-dd"}, status=400)
+                    elif data["priority"] not in priority_values:
+                        return JsonResponse({"success": False, "payload": f"Please enter a valid priority value. values expected: {*priority_values,}"}, status=400)
+                    elif data["status"] not in status_values:
+                        return JsonResponse({"success": False, "payload": f"Please enter a valid status value.values expected: {*status_values,}"}, status=400)
+
+                    # store info in DB
+                    update_todo = Todo.objects.get(id=todo_id)
+                    update_todo.title = data["title"]
+                    update_todo.description = data["description"]
+                    update_todo.priority = data["priority"]
+                    update_todo.status = data["status"]
+                    update_todo.start_date = data["start_date"]
+                    update_todo.end_date = data["end_date"]
+                    update_todo.save()
+                    get_info = Todo.objects.get(id=update_todo.id)
+
+                    # convert saved data to dictionary
+                    saved_data = serializers.serialize("json", [get_info])
+                    response = json.loads(saved_data)
+                    # send stored info to fe
+                    return JsonResponse({"success": True, "payload": response[0]}, status=200)
+
+                else:
+                    return JsonResponse({"success": False, "payload": "Please provide all necessary information"}, status=400)
         else:
-            # access DB
-            return JsonResponse({"success": True, "payload": data}, status=200)
-    else:
-        error_message = "Resource not found"
-        return JsonResponse({"success": False, "payload": error_message}, status=404)
+            error_message = "Resource not found"
+            return JsonResponse({"success": False, "payload": error_message}, status=404)
+    except:
+        return JsonResponse({"success": False, "payload": "Sorry, Something went wrong"}, status=500)
 
 
 def fetch_one_todo(request, todo_id):
     try:
-        print(request.method)
         if request.method == "GET":
-            data = "my data"
             if todo_id == "" or todo_id == None:
                 return JsonResponse({"success": False, "payload": "No Id provided"}, status=400)
             else:
@@ -145,8 +177,6 @@ def delete_todo(request, todo_id):
 
 
 def validate_date(date_input):
-    print("-----------------")
-    print(date_input)
     try:
         datetime.strptime(date_input, '%Y-%m-%d')
         datetime.strptime(date_input, '%Y-%m-%d')
