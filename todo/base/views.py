@@ -34,7 +34,7 @@ def add_todo(request):
                 return JsonResponse({"success": False, "payload": "Please provide all necessary information"}, status=400)
 
     else:
-        allowed_methods = ['POST']  # Add other allowed methods if needed
+        allowed_methods = ['POST']
         error_message = f"Method not allowed. Allowed methods: {', '.join(allowed_methods)}."
         return JsonResponse({"success": False, "payload": error_message}, status=400)
 
@@ -43,9 +43,30 @@ def add_todo(request):
 def update_todo(request):
 
     if request.method == "PATCH":
-        data = request.body
+        data = json.loads(request.body)
+        if not data:
+            return JsonResponse({"success": False, "payload": "Sorry,You cannot send an empty request"}, status=400)
+        else:
+            # access DB
+            return JsonResponse({"success": True, "payload": data}, status=200)
+    else:
+        error_message = "Resource not found"
+        return JsonResponse({"success": False, "payload": error_message}, status=404)
 
-        return HttpResponse(data)
+
+def delete_todo(request, todo_id):
+    try:
+        if request.method == "DELETE":
+            data = "my data"
+            if todo_id == "" or todo_id == None:
+                return JsonResponse({"success": False, "payload": "No Id provided"}, status=400)
+
+            return JsonResponse({"success": False, "payload": "Item successfully deleted"}, status=200)
+
+        else:
+            return JsonResponse({"success": False, "payload": "Resource not found"}, status=404)
+    except:
+        return JsonResponse({"success": False, "payload": "Sorry.Something went wrong on our server"}, status=500)
 
 
 def register(request):
@@ -53,12 +74,6 @@ def register(request):
     if request.method == "POST":
         data = request.body
 
-        return HttpResponse(data)
-
-
-def delete_todo(request):
-    if request.method == "DELETE":
-        data = "my data"
         return HttpResponse(data)
 
 
