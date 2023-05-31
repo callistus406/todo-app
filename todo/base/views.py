@@ -26,10 +26,17 @@ def fetch_all_todo(request):
                 return JsonResponse({"success": False, "payload": "No todo found"}, status=404)
             else:
                 deserialized_data = serializers.serialize("python", all_todo)
-                return JsonResponse({"success": True, "payload": deserialized_data}, status=200)
+                context = deserialized_data
+                for info in context:
+                    for key in info["fields"]:
+                        print(info["fields"]["title"])
+
+                return render(request, "index.html", {"response": context})
+                # return JsonResponse({"success": True, "payload": deserialized_data}, status=200)
         else:
             return JsonResponse({"success": False, "payload": "Resource not found"}, status=404)
-    except:
+    except Exception as e:
+        print(e)
         return JsonResponse({"success": False, "payload": "Sorry something went wrong on the server"}, status=500)
 
 
@@ -45,6 +52,7 @@ def add_todo(request):
                 return JsonResponse(
                     {"success": False, "payload": "You cannot send empty request"}, status=400)
             else:
+
                 if all(data.get(field) for field in required_fields):
                     # validate date fields
                     is_start_date_valid = validate_date(data['start_date'])

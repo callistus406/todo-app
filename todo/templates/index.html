@@ -12,33 +12,50 @@
     />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <script defer src="{% static 'js/script.js' %}"></script>
+    <script defer src="{% static 'js/requests.js' %}"></script>
     <title>Django app</title>
   </head>
   <body>
+    <!-- start header -->
     <header class="header">
       <div class="header__inner container">
         <h1 class="header__title">Django Todo-list</h1>
         <form class="todo-form">
           <div class="todo-form__group">
             <input
+              name="title"
               type="text"
               class="todo-form__input"
+              id="title"
               placeholder="Todo Title..."
             />
           </div>
           <div class="todo-form__group">
-            <textarea class="todo-form__textarea">Todo Description...</textarea>
+            <textarea name="description" id="description" class="todo-form__textarea">
+    Todo Description...</textarea
+            >
           </div>
-          <button class="btn btn--primary">Submit</button>
+          <button class="btn btn--primary" id="submit">Submit</button>
         </form>
         <div class="header__filters">
           <div class="header__filters__item">
-            <span class="material-icons-outlined"> clear </span>
-            blue
+            <select name="priority" id="priority">
+              <option value="low">Low</option>
+              <option value="high">High</option>
+              <option value="normal">Normal</option>
+            </select>
           </div>
           <div class="header__filters__item">
-            <span class="material-icons-outlined"> clear </span>
-            completed
+            <select name="status" id="status">
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div class="header__filters__item">
+            <input type="date" name="start_date" id="startDate" />
+          </div>
+          <div class="header__filters__item">
+            <input type="date" name="end_date" id="endDate" />
           </div>
         </div>
       </div>
@@ -50,138 +67,34 @@
       <div class="container">
         <div class="cards">
           <div class="cards__row">
+            {% for data in response%} {% for key in data.fields %}
             <div class="card">
-              <div class="card__header">
-                <h3 class="card__title">Card Title</h3>
+                <div class="card__header">
+                  <p>ID:{{data.pk}}<p/>
+                <h3 class="card__title">{{data.fields.title}}</h3>
                 <div class="card__remove-icon">
                   <span class="material-icons-outlined"> clear </span>
                 </div>
               </div>
               <div class="card__body">
-                <p class="card__text">This is a text.</p>
+                <p class="card__text">{{data.fields.description}}</p>
               </div>
               <div class="card__footer">
                 <div class="footer__item">
                   <span class="material-icons-outlined"> clear </span>
-                  blue
+                  {{data.fields.priority}}
                 </div>
                 <div class="footer__item">
                   <span class="material-icons-outlined"> clear </span>
-                  completed
-                </div>
-              </div>
-              <div class="card__dropdown">
-                <div class="card__dropdown__toggler">
-                  <span class="material-icons-outlined"> more_vert </span>
-                </div>
-                <div class="card__dropdown__menu">
-                  <form class="card__dropdown__form">
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor1"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor1">Red</label>
-                    </div>
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor2"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor2">Blue</label>
-                    </div>
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor3"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor3">Green</label>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card__header">
-                <h3 class="card__title">Card Title</h3>
-                <div class="card__remove-icon">
-                  <span class="material-icons-outlined"> clear </span>
-                </div>
-              </div>
-              <div class="card__body">
-                <p class="card__text">This is a text.</p>
-              </div>
-              <div class="card__footer">
-                <div class="footer__item">
-                  <span class="material-icons-outlined"> clear </span>
-                  blue
+                  {{data.fields.status}}
                 </div>
                 <div class="footer__item">
                   <span class="material-icons-outlined"> clear </span>
-                  completed
-                </div>
-              </div>
-              <div class="card__dropdown">
-                <div class="card__dropdown__toggler">
-                  <span class="material-icons-outlined"> more_vert </span>
-                </div>
-                <div class="card__dropdown__menu">
-                  <form class="card__dropdown__form">
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor4"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor4">Red</label>
-                    </div>
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor5"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor5">Blue</label>
-                    </div>
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor6"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor6">Green</label>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card__header">
-                <h3 class="card__title">Card Title</h3>
-                <div class="card__remove-icon">
-                  <span class="material-icons-outlined"> clear </span>
-                </div>
-              </div>
-              <div class="card__body">
-                <p class="card__text">This is a text.</p>
-              </div>
-              <div class="card__footer">
-                <div class="footer__item">
-                  <span class="material-icons-outlined"> clear </span>
-                  blue
+                Start Date:  {{data.fields.start_date}}
                 </div>
                 <div class="footer__item">
                   <span class="material-icons-outlined"> clear </span>
-                  completed
+                 Deadline: {{data.fields.end_date}}
                 </div>
               </div>
               <div class="card__dropdown">
@@ -221,68 +134,16 @@
                 </div>
               </div>
             </div>
-            <div class="card">
-              <div class="card__header">
-                <h3 class="card__title">Card Title</h3>
-                <div class="card__remove-icon">
-                  <span class="material-icons-outlined"> clear </span>
-                </div>
-              </div>
-              <div class="card__body">
-                <p class="card__text">This is a text.</p>
-              </div>
-              <div class="card__footer">
-                <div class="footer__item">
-                  <span class="material-icons-outlined"> clear </span>
-                  blue
-                </div>
-                <div class="footer__item">
-                  <span class="material-icons-outlined"> clear </span>
-                  completed
-                </div>
-              </div>
-              <div class="card__dropdown">
-                <div class="card__dropdown__toggler">
-                  <span class="material-icons-outlined"> more_vert </span>
-                </div>
-                <div class="card__dropdown__menu">
-                  <form class="card__dropdown__form">
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor10"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor10">Red</label>
-                    </div>
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor11"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor11">Blue</label>
-                    </div>
-                    <div class="card__dropdown__form__group">
-                      <input
-                        type="radio"
-                        name="filter_by_color"
-                        id="dropdownFilterColor12"
-                        class="card__dropdown__form__radio"
-                      />
-                      <label for="dropdownFilterColor12">Green</label>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+            {% endfor %} {% endfor %}
+
+
+           
       </div>
     </div>
+    <!-- end body -->
 
+    <!-- start filters toggler -->
     <div class="filters-toggler">
       <div class="filters-toggler__show">
         <span class="material-icons-outlined"> filter_list </span>
