@@ -50,8 +50,7 @@ submitBtnElem.addEventListener("click", (event) => {
 
 deleteBtnElem.forEach((element) => {
   element.addEventListener("click", (event) => {
-    // event.preventDefault();
-    // console.log();
+    event.preventDefault();
     const todo_id = event.target.dataset.todoid;
     deleteTodo(todo_id);
   });
@@ -59,8 +58,7 @@ deleteBtnElem.forEach((element) => {
 updateBtnElem.forEach((element) => {
   element.addEventListener("click", (event) => {
     const todo_id = event.target.dataset.todoid;
-    //   event.preventDefault();
-    //   const todo_id = todoIdElem.value;
+    event.preventDefault();
     fetchTodo(todo_id);
   });
 });

@@ -4,35 +4,35 @@ window.onload = function () {
     e.preventDefault();
   };
 
-  //   function dropdownMenuHandler(dropdownMenu) {
-  //     if (dropdownMenu.classList.contains("card__dropdown__menu")) {
-  //       if (dropdownMenu.classList.contains("card__dropdown__menu--show")) {
-  //         dropdownMenu.classList.remove("card__dropdown__menu--show");
-  //       } else {
-  //         dropdownMenu.classList.add("card__dropdown__menu--show");
-  //       }
-  //     }
-  //   }
+  function dropdownMenuHandler(dropdownMenu) {
+    if (dropdownMenu.classList.contains("card__dropdown__menu")) {
+      if (dropdownMenu.classList.contains("card__dropdown__menu--show")) {
+        dropdownMenu.classList.remove("card__dropdown__menu--show");
+      } else {
+        dropdownMenu.classList.add("card__dropdown__menu--show");
+      }
+    }
+  }
 
-  // card-dropdown
-  //   var cardDropdownToggler = document.querySelectorAll(
-  //     ".card__dropdown__toggler"
-  //   );
-  //   cardDropdownToggler.forEach(function (item) {
-  //     item.onclick = function () {
-  //       var dropdownMenu = item.nextElementSibling;
-  //       dropdownMenuHandler(dropdownMenu);
-  //     };
-  //   });
+  card - dropdown;
+  var cardDropdownToggler = document.querySelectorAll(
+    ".card__dropdown__toggler"
+  );
+  cardDropdownToggler.forEach(function (item) {
+    item.onclick = function () {
+      var dropdownMenu = item.nextElementSibling;
+      dropdownMenuHandler(dropdownMenu);
+    };
+  });
 
-  //   var cardDropdownMenu = document.querySelectorAll(".card__dropdown__menu");
-  //   cardDropdownMenu.forEach(function (item) {
-  //     item.onclick = function (e) {
-  //       if (e.srcElement.checked) {
-  //         dropdownMenuHandler(e.currentTarget);
-  //       }
-  //     };
-  //   });
+  var cardDropdownMenu = document.querySelectorAll(".card__dropdown__menu");
+  cardDropdownMenu.forEach(function (item) {
+    item.onclick = function (e) {
+      if (e.srcElement.checked) {
+        dropdownMenuHandler(e.currentTarget);
+      }
+    };
+  });
 
   // filters
   var filtersToggler = document.querySelector(".filters-toggler");
