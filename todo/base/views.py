@@ -27,9 +27,6 @@ def fetch_all_todo(request):
             else:
                 deserialized_data = serializers.serialize("python", all_todo)
                 context = deserialized_data
-                for info in context:
-                    for key in info["fields"]:
-                        print(info["fields"]["title"])
 
                 return render(request, "index.html", {"response": context})
                 # return JsonResponse({"success": True, "payload": deserialized_data}, status=200)
@@ -186,7 +183,6 @@ def delete_todo(request, todo_id):
 
 def validate_date(date_input):
     try:
-        datetime.strptime(date_input, '%Y-%m-%d')
         datetime.strptime(date_input, '%Y-%m-%d')
         return True
     except ValueError:
