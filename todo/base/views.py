@@ -13,7 +13,7 @@ status_values = ["completed", "pending"]
 @ensure_csrf_cookie
 def home(request):
 
-    return JsonResponse("invalid request")
+    return render(request, "index.html", {})
     # print(request.method)
     # return HttpResponse("hello world")
 
