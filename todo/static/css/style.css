@@ -462,12 +462,17 @@ body {
   border-radius: 100%;
   text-align: center;
   line-height: 29px;
+  position: relative;
   cursor: pointer;
+  /* display:flex;
+  justify-content:center;
+  align-items:center; */
 }
 
 .card .card__dropdown .card__dropdown__toggler span {
   color: #555;
-  font-size: 18px;
+  /* font-size: 18px; */
+  width: 20px;
 }
 
 .card .card__dropdown .card__dropdown__menu {
