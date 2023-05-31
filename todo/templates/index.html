@@ -20,6 +20,7 @@
     <header class="header">
       <div class="header__inner container">
         <h1 class="header__title">Django Todo-list</h1>
+        <span data-idPlaceholder="" id="idPlaceholder"></span>
         <form class="todo-form">
           <div class="todo-form__group">
             <input
@@ -67,13 +68,13 @@
       <div class="container">
         <div class="cards">
           <div class="cards__row">
-            {% for data in response%} {% for key in data.fields %}
+            {% for data in response%}
             <div class="card">
                 <div class="card__header">
                   <p>ID:{{data.pk}}<p/>
-                <h3 class="card__title">{{data.fields.title}}</h3>
-                <div class="card__remove-icon">
-                  <span class="material-icons-outlined"> clear </span>
+                <h3 class="card__title" id="title">{{data.fields.title}}</h3>
+                <div class="card__remove-icon delete" > 
+                  <span class="material-icons-outlined" data-todoid="{{data.pk}}" > clear </span>
                 </div>
               </div>
               <div class="card__body">
@@ -81,27 +82,28 @@
               </div>
               <div class="card__footer">
                 <div class="footer__item">
-                  <span class="material-icons-outlined"> clear </span>
+                  <span class="material-icons-outlined"> timer </span>
                   {{data.fields.priority}}
                 </div>
                 <div class="footer__item">
-                  <span class="material-icons-outlined"> clear </span>
+                  <span class="material-icons-outlined"> offline_bolt  </span>
                   {{data.fields.status}}
                 </div>
                 <div class="footer__item">
-                  <span class="material-icons-outlined"> clear </span>
+                  <span class="material-icons-outlined"> event_available </span>
                 Start Date:  {{data.fields.start_date}}
                 </div>
                 <div class="footer__item">
-                  <span class="material-icons-outlined"> clear </span>
+                  <span class="material-icons-outlined"> event_busy </span>
                  Deadline: {{data.fields.end_date}}
                 </div>
               </div>
-              <div class="card__dropdown">
-                <div class="card__dropdown__toggler">
-                  <span class="material-icons-outlined"> more_vert </span>
+              <div class="card__dropdown" >
+                <div class="card__dropdown__toggler edit__todo" >
+               
+                  <span class="material-icons-outlined" data-todoid="{{data.pk}}" > edit_vert </span>
                 </div>
-                <div class="card__dropdown__menu">
+                {% comment %} <div class="card__dropdown__menu">
                   <form class="card__dropdown__form">
                     <div class="card__dropdown__form__group">
                       <input
@@ -131,11 +133,13 @@
                       <label for="dropdownFilterColor9">Green</label>
                     </div>
                   </form>
-                </div>
+                </div> {% endcomment %}
               </div>
             </div>
 
-            {% endfor %} {% endfor %}
+  
+            
+            {% endfor %}
 
 
            
